@@ -1,0 +1,50 @@
+version: '3'
+
+services:
+  web:
+#    restart: always
+    build: ./web
+    expose:
+      - "9300"
+    links:
+#      - postgres:postgres
+      - es:es
+    volumes:
+      - web-static:/static/
+    env_file: .env
+    command: /usr/local/bin/gunicorn mpmg.wsgi:application -w 2 -b :9300
+#    extra_hosts:
+#      - "host.docker.internal:host-gateway"
+
+  nginx:
+    restart: always
+    build: ./nginx/
+    ports:
+      - "9500:80"
+    volumes:
+      - web-static:/static/
+    links:
+      - web:web
+
+#  postgres:
+#    restart: always
+#    image: postgres:latest
+#    ports:
+#      - "5432"
+#    volumes:
+#      - pgdata:/var/lib/postgresql/data/
+#    env_file: .env
+  es:
+    restart: always
+    image: elasticsearch:7.8.1
+    environment:
+      - discovery.type=single-node
+    ports:
+      - "9400:9200"
+    volumes:
+      - esdata:/usr/share/elasticsearch/data
+
+volumes:
+  web-static:
+#  pgdata:
+  esdata:

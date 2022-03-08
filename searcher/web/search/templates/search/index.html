@@ -1,0 +1,45 @@
+{% extends "./_base.html" %}
+{% block content %}
+    <nav class="navbar navbar-expand-md navbar-light bg-light fixed-top">
+        <div class="container">
+            <div class="row">
+                <div class="col-2 offset-10">&nbsp;</div>
+            </div>
+            <ul class="navbar-nav">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="dropdown07" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="fas fa-user"></i>
+                        {{ user_name }}
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="dropdown07">
+                        <a class="dropdown-item" href="/search/logout"><i class="fas fa-sign-out-alt"></i> Sair</a>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="vertical-center">
+        <div class="container">
+            <h1 class="search-title">Procon</h1>
+            <form action="{% url 'search:search' %}" method="GET" class="form">
+                <div class="row justify-content-md-center">
+                    <div class="col-md-8">
+                        <div class="input-group">
+                            <input type="text" class="form-control shadow p-3 mb-5 bg-white rounded" name="query" id="query" placeholder="Sua consulta aqui..." autocomplete="off" oninvalid="setCustomValidity('A consulta requer pelo menos 2 caracteres não vazios.')" oninput="setCustomValidity('')" required pattern="\s*(\S\s*){2,}" autofocus>
+                            <span class="input-group-btn">
+                                <button type="submit" class="btn btn-primary shadow mb-5 rounded">Pesquisar</button>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock %}
+{% block script_before %}
+    <script>
+        SERVICES_URL = "{{ services_url }}";
+        AUTH_TOKEN = "{{ auth_token }}";
+    </script>
+{% endblock %}

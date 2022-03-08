@@ -1,0 +1,47 @@
+# Folders to organize indexing data
+indexer/original/
+indexer/zips/
+indexer/csvs/
+indexer/.ipynb_checkpoints/
+indexer/indices/*
+
+# indexation tests
+indexer/playground.ipynb
+indexer/Indexing.ipynb
+indexer/treating.ipynb
+indexer/testing_indexer.ipynb
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Django stuff:
+*.log
+local_settings.py
+db.sqlite3
+db.sqlite3-journal
+web/db.sqlite3
+web/mpmg/settings.py
+mpmg/services/migrations/
+
+# Django-Jenkins reports
+reports
+
+# Virtual env
+web/env/
+web/venv/
+
+# Extensions
+*.sqlite3
+*.xml
+
+# VS Code
+.vscode
+
+#NER stuff:
+NER/M02/models/lener_model.ser.gz
+
+notebooks/.ipynb_checkpoints/
+
+.idea

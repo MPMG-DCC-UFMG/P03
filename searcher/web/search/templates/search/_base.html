@@ -1,0 +1,27 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <link rel="stylesheet" href="{% static 'search/fontawesome/css/all.min.css' %}">
+        <link rel="stylesheet" href="{% static 'search/bootstrap/css/bootstrap.min.css' %}" integrity="" crossorigin="anonymous">
+        <link rel="stylesheet" href="{% static 'search/jquery-ui/jquery-ui.min.css' %}">
+        <link rel="stylesheet" href="{% static 'search/style.css' %}">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+        <link rel="stylesheet" href="{% static 'search/bootstrap-multiselect/css/bootstrap-multiselect.css' %}">
+        {% block additional_head %}{% endblock %}
+        <title>Procon</title>
+    </head>
+    <body {% block body_tags %}{% endblock %}>
+        {% block content %}{% endblock %}
+        {% block script_before %}{% endblock %}
+        <script src="{% static 'search/jquery-3.4.1.min.js' %}"></script>
+        <script src="{% static 'search/popper.min.js' %}"></script>
+        <script src="{% static 'search/jquery-ui/jquery-ui.min.js' %}"></script>
+        <script src="{% static 'search/script.js' %}"></script>
+        <script src="{% static 'search/bootstrap/js/bootstrap.min.js' %}"></script>
+        <script src="{% static 'search/bootstrap-multiselect/js/bootstrap-multiselect.js' %}"></script>
+        {% block script_after %}{% endblock %}
+    </body>
+</html>
