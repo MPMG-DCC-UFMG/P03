@@ -12,7 +12,7 @@ Originalmente escrito por Elves Rodrigues (M05) (elvesmateusrodrigues@gmail.com)
 
 Exemplo
 
-> python3 src/parser.py /datalake/ufmg/crawler/webcrawlerc01/reclameaqui/1/data/raw_pages/
+> python3 parser.py /datalake/ufmg/crawler/webcrawlerc01/reclameaqui/1/data/raw_pages/
 
 # Observação
 
