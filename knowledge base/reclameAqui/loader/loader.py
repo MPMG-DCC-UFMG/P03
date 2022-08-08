@@ -19,6 +19,7 @@ page_size = 100000
 # Loading data
 df = pd.read_csv(sys.argv[1], compression='gzip')
 df = df.dropna(subset=['conteudo'])
+df = df.drop(columns=['tipo_problema', 'resolvido:bool', 'tipo_postagem', 'nome_curto_empresa', 'site_empresa', 'categoria_empresa'])
 
 df['nome_completo_empresa'] = df['nome_completo_empresa'].str.lower().str.strip()
 df['cidade'] = df['cidade'].str.lower().str.strip()
@@ -49,6 +50,7 @@ entidades_values += [tuple([x]) for x in set(location_temp['estado'])]
 
 psycopg2.extras.execute_batch(cur, entidades_query, entidades_values, page_size=page_size)
 
+print("read")
 cur.execute("""
   SELECT nome, id
   FROM entidade;
@@ -131,7 +133,9 @@ df['Localidade'] = df.Localidade.replace(localidades).replace({np.nan: None})
 
 df['nome_completo_empresa'] = df.nome_completo_empresa.replace(empresas)
 
-reclamacoes_values = [tuple(x) for x in df[['data_criacao', 'nome_completo_empresa', 'Localidade', 'id']].to_numpy()]
+df_temp = df.loc[df['ordem_da_interacao'] == 0]
+
+reclamacoes_values = [tuple(x) for x in df_temp[['data_criacao', 'nome_completo_empresa', 'Localidade', 'id']].to_numpy()]
 
 psycopg2.extras.execute_batch(cur, reclamacoes_query, reclamacoes_values, page_size=page_size)
 
@@ -151,7 +155,7 @@ reclamacoes_plataforma_query = """
   INSERT INTO reclamacao_reclameaqui
     (id_reclamacao, titulo, categorias)
   VALUES
-    (%s, %s, %s)
+    (%s, %s, '')
   ON CONFLICT
     (id_reclamacao)
   DO NOTHING;
@@ -168,18 +172,28 @@ historico_query = """
   DO NOTHING;
   """
   
-df['Reclamacao'] = df.id.replace(reclamacoes)
+df['Reclamacao'] = df['id_pai'].map(reclamacoes)
+df_temp = df.loc[df['ordem_da_interacao'] == 0]
 
-reclamacoes_plataforma_values = [tuple(x) for x in df[['Reclamacao', 'Titulo', 'Categorias']].to_numpy()]
-historico_values = [tuple(['consumidor'] + list(x) + [1]) for x in df[['conteudo', 'data_criacao', 'Reclamacao']].to_numpy()]
-historico_values += [tuple(['nome_completo_empresa'] + list(x) + [2]) for x in df[['Resposta', 'data_criacao', 'Reclamacao']].dropna(subset=['Resposta']).to_numpy()]
+reclamacoes_plataforma_values = [tuple(x) for x in df_temp[['Reclamacao', 'titulo']].to_numpy()]
+
+author = {
+  'COMPLAINT': 'consumidor',
+  'ANSWER': 'empresa',
+  'REPLY': 'consumidor',
+  'FINAL_ANSWER': 'empresa',
+  'COMPANY_REPLY': 'empresa'}
+
+df['autor'] = df['tipo_interacao'].map(author)
+
+historico_values = [tuple(x) for x in df[['autor', 'conteudo', 'data_criacao', 'Reclamacao', 'ordem_da_interacao']].to_numpy()]
 
 psycopg2.extras.execute_batch(cur, reclamacoes_plataforma_query, reclamacoes_plataforma_values, page_size=page_size)
 psycopg2.extras.execute_batch(cur, historico_query, historico_values, page_size=page_size)
 
 toc = time.perf_counter(); print(f"FOURTH PASS done! {toc - tic:0.4f}")
 
-#con.commit()
-#con.close()
+con.commit()
+con.close()
 
 print("committed")
