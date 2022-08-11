@@ -1,15 +1,17 @@
-# P03 - ReclameAqui Loader
+# P03 - Procon Loader
 
-Carrega para a Base de Conhecimento os dados extraídos pelo parser.py.
+Carrega para a Base de Conhecimento os dados da cópia do banco disponibilizado pelo MPMG.
 
 # Como executar
 
-Adicionar as credenciais para acessoa o banco de dados no arquivo credentials.int.
+Adicionar as credenciais para acesso à cópia do banco do MPMG no arquivo loader.py linha 12.
 
-> pip install psycopg2
+Adicionar as credenciais para acesso ao banco de dados da Base de Conhecimento no arquivo credentials.int.
 
-> python3 loader.py \[arquivo de saída do parser.py\]
+> pip install psycopg2 pyhive
+
+> python3 loader.py
 
 Exemplo
 
-> python3 loader.py \_datalake\_ufmg\_crawler\_webcrawlerc01\_reclameaqui\_1\_data\_raw\_pages\_.csv.gz
+> python3 loader.py
