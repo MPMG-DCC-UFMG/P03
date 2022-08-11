@@ -11,7 +11,3 @@ Adicionar as credenciais para acesso ao banco de dados da Base de Conhecimento n
 > pip install psycopg2 pyhive
 
 > python3 loader.py
-
-Exemplo
-
-> python3 loader.py
