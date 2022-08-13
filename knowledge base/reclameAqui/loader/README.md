@@ -4,7 +4,7 @@ Carrega para a Base de Conhecimento os dados extraídos pelo parser.py.
 
 # Como executar
 
-Adicionar as credenciais para acessoa o banco de dados no arquivo credentials.int.
+Adicionar as credenciais para acesso ao banco de dados da Base de Conhecimento no arquivo credentials.int.
 
 > pip install psycopg2
 
