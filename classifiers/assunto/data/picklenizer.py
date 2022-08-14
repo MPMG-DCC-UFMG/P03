@@ -13,7 +13,7 @@ from sklearn.model_selection import KFold
 working_dir = sys.argv[1]
 
 # Getting Data
-con = hive.Connection(host="", port="", username="", auth='', password="")
+con = hive.Connection(host="", port="", username="", auth="LDAP", password="")
 
 df = pd.read_sql("SELECT manifestacao.mensagem_show AS text, sub_classe.nom_sub_classe AS lbl FROM ouvidoria.manifestacao AS manifestacao LEFT JOIN ouvidoria.assunto AS assunto ON assunto.id_manifestacao = manifestacao.id_manifestacao LEFT JOIN stage.ouvidoria_20211217_sub_classe AS sub_classe ON sub_classe.id_sub_classe = assunto.id_sub_classe WHERE manifestacao.id_ouvidoria = 14", con)
 
@@ -26,18 +26,29 @@ df['idx'] = df.index
 
 # Trimming Classes (Top 5 most frenquent + others)
 
-labels = df['lbl'].value_counts().index.tolist()[:5]
+df['cls'] = " "
 
-df.loc[~df['lbl'].isin(labels), 'lbl'] = 'Outros'
+classes = {
+  'Produtos':0,
+  'Serviços Públicos e Privados':1,
+  'Serviços regulamentados pela ANATEL':2,
+  'Finanças':3,
+  'Publicidade':4
+  }
 
-labels.append('Outros')
-
-labels_idx = {k: v + 1 for v, k in enumerate(labels)}
-
-df['cls'] = df['lbl'].map(labels_idx)
+for i in df.index:
+  if df.at[i, 'lbl'] not in classes:
+    df.at[i, 'cls'] = 5
+  else:
+    df.at[i, 'cls'] = classes[df.at[i, 'lbl']]
 
 os.makedirs(working_dir, exist_ok=True)
-df.to_pickle(working_dir + 'samples.pkl')
+
+js = df.to_json(orient='records')
+parsed = json.loads(js)
+
+with open(working_dir + 'samples.pkl', 'wb') as f:
+  pickle.dump(parsed, f)
 
 fold = 0
 

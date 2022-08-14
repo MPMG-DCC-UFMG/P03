@@ -1,4 +1,5 @@
 import sys
+import json 
 
 import pandas as pd
 
@@ -11,7 +12,9 @@ from spacy.lang.pt.stop_words import STOP_WORDS as pt_stop
 # reading data
 working_dir = sys.argv[1]
 
-df = pd.read_pickle(working_dir + 'samples.pkl')
+ds = pd.read_pickle(working_dir + 'samples.pkl')
+
+df = pd.DataFrame(ds)
 
 # tf-idfying  
 vectorizer = TfidfVectorizer(lowercase=True, stop_words=list(pt_stop))
