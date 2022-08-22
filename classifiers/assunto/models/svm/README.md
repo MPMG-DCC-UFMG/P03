@@ -4,18 +4,19 @@ Treina um classificador SVM para os assuntos utilizando os dados gerados pelo pi
 
 # Como executar
 
-> pip install pandas sklearn spacy
+```shell script
+pip install pandas sklearn spacy
 
-> python3 svm.py \[diretório de saída do picklenizer.py\]
-
+python3 svm.py \[diretório de saída do picklenizer.py\]
+```
 Exemplo
-
-> python3 svm.py /tmp/PROCON/
-
+```shell script
+python3 svm.py /tmp/PROCON/
+```
 Otimização para processadores Intel
+```shell script
+pip install scikit-learn-intelex
 
-> pip install scikit-learn-intelex
-
-> python3 -m sklearnex picklenizer.py \[diretório de saída\]
-
+python3 -m sklearnex picklenizer.py \[diretório de saída\]
+```
 
