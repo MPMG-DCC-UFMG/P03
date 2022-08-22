@@ -14,3 +14,9 @@ Exemplo
 ```shell script
 python3 svm.py /tmp/PROCON/
 ```
+
+# Distribuição de Classes
+Todas as classes:
+![todas](todas.png)
+As 5 classes mais frenquentes e as demais definidas como "Outros":
+![top5](top5.png)
