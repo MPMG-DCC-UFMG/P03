@@ -5,11 +5,12 @@ Extrai os relatos e seus respectivos rótulos da cópia do banco disponibilizado
 # Como executar
 
 Adicionar as credenciais para acesso à cópia do banco do MPMG no arquivo picklenizer.py linha 13.
+```shell script
+pip install pyhive sklearn
 
-> pip install pyhive sklearn
-
-> python3 picklenizer.py \[diretório de saída\]
-
+python3 picklenizer.py \[diretório de saída\]
+```
 Exemplo
-
-> python3 svm.py /tmp/PROCON/
+```shell script
+python3 svm.py /tmp/PROCON/
+```
