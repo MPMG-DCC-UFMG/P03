@@ -1,5 +1,6 @@
 import sys
 import json 
+import joblib
 
 import pandas as pd
 
@@ -22,6 +23,12 @@ vectorizer = TfidfVectorizer(lowercase=True, stop_words=list(pt_stop))
 vectorizer.fit(df['text'])
 
 X_tfidf_vectorize = vectorizer.transform(df['text'])
+
+os.makedirs('output', exist_ok=True)
+
+with open('output/TfidfVectorizer.sav', 'wb') as f:
+  joblib.dump(vectorizer, f)
+
 y = df['cls'].to_numpy()
 
 # setting up model
@@ -48,6 +55,10 @@ for fold in range(10):
   stats.at[fold, "Mac-F1"] = f1_score(y_test, y_pred, average='macro')
   stats.at[fold, "Wei-F1"] = f1_score(y_test, y_pred, average='weighted')
   
-  print("fold " + str(fold) + " done")
+  # save the model to disk
+  with open('output/svm_fold_' + str(fold) + '.sav', 'wb') as f:
+    joblib.dump(SVM, f)
 
+  print("fold " + str(fold) + " done")
+  
 stats.to_csv("SVM" + ".stat", sep='\t', index=False, header=True)

@@ -18,5 +18,5 @@ Seguir as instruções do diretório e depois executar:
                  data.max\_length=256 \
                  data.num\_classes=6 \
                  data.batch\_size=32 \
-                 data.num\_workers=10 \
+                 data.num\_workers=10
 ```
